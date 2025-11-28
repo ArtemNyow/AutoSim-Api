@@ -12,6 +12,9 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRouters.js";
 
+import swaggerUi from "swagger-ui-express";
+import spec from "./swagger/spec.js";
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -33,6 +36,8 @@ app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use(userRouter);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(spec));
 
 app.use(notFoundHandler);
 
