@@ -4,9 +4,9 @@ const userSchema = new Schema(
   {
     firstName: { type: String, trim: true, required: true },
     lastName: { type: String, trim: true },
-    email: { type: String, trim: true, unique: true },
+    email: { type: String, trim: true, unique: true, sparse: true },
     password: { type: String, required: true },
-    phone: { type: String, unique: true, required: true },
+    phone: { type: String, unique: true, sparse: true },
     isAdmin: { type: Boolean, default: false },
     balance: { type: Number, default: 0 },
   },
