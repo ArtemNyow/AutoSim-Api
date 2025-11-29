@@ -27,7 +27,7 @@ export const createBooking = async (req, res, next) => {
 
     const overlapping = await Booking.findOne({
       simulatorId,
-      status: { $in: ["У процесі", "Підтверджено"] },
+      status: { $in: ["В обробці", "Підтверджено"] },
       $or: [
         { startTime: { $lt: new Date(endTime), $gte: new Date(startTime) } },
         { endTime: { $lte: new Date(endTime), $gt: new Date(startTime) } },

@@ -1,6 +1,7 @@
 export const STATUS = {
-  PENDING: "У процесі",
+  PENDING: "В обробці",
   CONFIRMED: "Підтверджено",
+  ONPLACE: "Грає",
   COMPLETED: "Виконано",
   CANCELLED: "Скасовано",
   EXPIRED: "Прострочено",
