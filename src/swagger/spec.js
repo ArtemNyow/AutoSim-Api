@@ -6,7 +6,7 @@ const spec = {
     description:
       "API для реєстрації, логіну та отримання даних поточного користувача",
   },
-  servers: [{ url: "http://localhost:3000", description: "Local server" }],
+  servers: [{ url: "http://localhost:5050", description: "Local server" }],
   tags: [
     { name: "Auth", description: "Реєстрація, вхід та вихід користувача" },
     { name: "Users", description: "Інформація про користувачів" },
