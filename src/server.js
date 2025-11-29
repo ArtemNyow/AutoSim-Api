@@ -11,6 +11,7 @@ import { errorHandler } from "./middleware/errorHandler.js";
 
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRouters.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 
 import swaggerUi from "swagger-ui-express";
 import spec from "./swagger/spec.js";
@@ -33,9 +34,9 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-
 app.use("/auth", authRouter);
 app.use(userRouter);
+app.use(bookingRoutes);
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(spec));
 

@@ -3,7 +3,12 @@ import { BOOKING_STATUS, STATUS } from "../constants/status.js";
 
 const bookingSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    guestInfo: {
+      name: { type: String },
+      email: { type: String },
+      phone: { type: String },
+    },
     simulatorId: {
       type: Schema.Types.ObjectId,
       ref: "Simulator",
@@ -17,6 +22,7 @@ const bookingSchema = new Schema(
       enum: BOOKING_STATUS,
       default: STATUS.PENDING,
     },
+    comment: { type: String },
   },
   { timestamps: true, versionKey: false }
 );
