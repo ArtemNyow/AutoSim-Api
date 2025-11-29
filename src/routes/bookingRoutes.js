@@ -8,8 +8,10 @@ import {
   getMyBookings,
   getAllBookings,
   updateBookingByAdmin,
+  getSimulatorAvailabilitySlots,
 } from "../controllers/bookingController.js";
 import {
+  checkAvailabilityValidation,
   createBookingValidation,
   updateBookingValidation,
 } from "../validations/BookingValidation.js";
@@ -34,6 +36,11 @@ router.patch(
   isAdmin,
   updateBookingValidation,
   updateBookingByAdmin
+);
+router.get(
+  "/simulators/:id/availability",
+  checkAvailabilityValidation,
+  getSimulatorAvailabilitySlots
 );
 
 export default router;

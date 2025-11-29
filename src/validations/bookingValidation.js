@@ -22,3 +22,12 @@ export const updateBookingValidation = celebrate({
     price: Joi.number(),
   }),
 });
+
+export const checkAvailabilityValidation = celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+  [Segments.QUERY]: Joi.object().keys({
+    date: Joi.date().required(),
+  }),
+});

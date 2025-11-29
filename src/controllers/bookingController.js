@@ -88,3 +88,53 @@ export const updateBookingByAdmin = async (req, res, next) => {
     next(err);
   }
 };
+export const getSimulatorAvailabilitySlots = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { date } = req.query;
+
+    if (!date) return res.status(400).json({ message: "date query required" });
+
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // отримуємо всі бронювання на цей день
+    const bookings = await Booking.find({
+      simulatorId: id,
+      status: { $in: ["У процесі", "Підтверджено"] },
+      startTime: { $lt: endOfDay },
+      endTime: { $gt: startOfDay },
+    }).select("startTime endTime -_id");
+
+    const slots = [];
+    const slotDurationMinutes = 30; // тривалість одного слоту
+
+    let current = new Date(startOfDay);
+
+    while (current < endOfDay) {
+      const slotStart = new Date(current);
+      const slotEnd = new Date(current.getTime() + slotDurationMinutes * 60000);
+
+      // перевірка, чи цей слот перетинається з бронюванням
+      const booked = bookings.some(
+        (b) =>
+          slotStart < new Date(b.endTime) && slotEnd > new Date(b.startTime)
+      );
+
+      slots.push({
+        startTime: slotStart,
+        endTime: slotEnd,
+        booked,
+      });
+
+      current = slotEnd;
+    }
+
+    res.status(200).json({ date, slots });
+  } catch (err) {
+    next(err);
+  }
+};
