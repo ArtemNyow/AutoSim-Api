@@ -5,8 +5,15 @@ import { calculatePrice } from "../utils/price.js";
 
 export const createBooking = async (req, res, next) => {
   try {
-    const { simulatorId, startTime, endTime, comment, name, email, phone } =
-      req.body;
+    const {
+      simulatorId,
+      startTime,
+      endTime,
+      comment,
+      name,
+      socialLink,
+      phone,
+    } = req.body;
 
     if (!req.user && (!name || name.trim() === "")) {
       return next(createHttpError(400, "Name is required for guest booking"));
@@ -22,7 +29,7 @@ export const createBooking = async (req, res, next) => {
     if (req.user) {
       bookingData.user = req.user._id;
     } else {
-      bookingData.guestInfo = { name, email, phone };
+      bookingData.guestInfo = { name, socialLink, phone };
     }
 
     const overlapping = await Booking.findOne({
@@ -62,7 +69,7 @@ export const getMyBookings = async (req, res, next) => {
 export const getAllBookings = async (req, res, next) => {
   try {
     const bookings = await Booking.find()
-      .populate("user", "firstName phone email")
+      .populate("user", "firstName phone socialLink")
       .populate("simulatorId", "name")
       .sort({ startTime: -1 });
 

@@ -10,42 +10,35 @@ import { User } from "../models/user.js";
 
 export const registerUser = async (req, res, next) => {
   try {
-    const { login, password, firstName } = req.body;
+    const { phone, password, firstName } = req.body;
 
-    const existingUser = await User.findOne({
-      $or: [{ email: login }, { phone: login }],
+    const exists = await User.findOne({ phone });
+    if (exists)
+      return next(createHttpError(409, "Телефон вже використовується"));
+
+    const newUser = await User.create({
+      phone,
+      password: await bcrypt.hash(password, 10),
+      firstName,
     });
-    if (existingUser) {
-      return next(createHttpError(401, "Логін вже використовується"));
-    }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUserData = { password: hashedPassword, firstName };
-    if (login.includes("@")) newUserData.email = login;
-    else newUserData.phone = login;
-
-    const newUser = await User.create(newUserData);
-
-    const newSession = await createSession(newUser._id);
-    setSessionCookies(res, newSession);
+    const session = await createSession(newUser._id);
+    setSessionCookies(res, session);
 
     res.status(201).json({
-      message: "Користувач зареєстрований успішно",
+      message: "Реєстрація успішна",
       user: newUser,
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 
 export const loginUser = async (req, res, next) => {
   try {
-    const { login, password } = req.body;
+    const { phone, password } = req.body;
 
-    const user = await User.findOne({
-      $or: [{ email: login }, { phone: login }],
-    });
+    const user = await User.findOne({ phone });
     if (!user) return next(createHttpError(401, "Невірний логін або пароль"));
 
     const isMatch = await bcrypt.compare(password, user.password);

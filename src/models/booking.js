@@ -5,9 +5,9 @@ const bookingSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
     guestInfo: {
-      name: { type: String },
-      email: { type: String },
-      phone: { type: String },
+      name: String,
+      phone: String,
+      socialLink: String,
     },
     simulatorId: {
       type: Schema.Types.ObjectId,

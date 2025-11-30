@@ -26,9 +26,9 @@ const spec = {
               schema: {
                 type: "object",
                 properties: {
-                  login: {
+                  phone: {
                     type: "string",
-                    example: "380991112233 або email@test.com",
+                    example: "380991112233",
                   },
                   password: {
                     type: "string",
@@ -37,7 +37,7 @@ const spec = {
                   },
                   firstName: { type: "string", example: "Ivan" },
                 },
-                required: ["login", "password", "firstName"],
+                required: ["phone", "password", "firstName"],
               },
             },
           },
@@ -83,13 +83,13 @@ const spec = {
               schema: {
                 type: "object",
                 properties: {
-                  login: {
+                  phone: {
                     type: "string",
-                    example: "380991112233 або email@test.com",
+                    example: "380991112233",
                   },
                   password: { type: "string", example: "P@ssw0rd1" },
                 },
-                required: ["login", "password"],
+                required: ["phone", "password"],
               },
             },
           },
@@ -209,7 +209,10 @@ const spec = {
                   },
                   comment: { type: "string", example: "Додатково" },
                   name: { type: "string", example: "Petro" },
-                  email: { type: "string", example: "petro@test.com" },
+                  socialLink: {
+                    type: "string",
+                    example: "telegram instagram link",
+                  },
                   phone: { type: "string", example: "380991112233" },
                 },
                 required: ["simulatorId", "startTime", "endTime"],

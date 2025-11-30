@@ -8,8 +8,8 @@ export const createBookingValidation = celebrate({
     endTime: Joi.date().required(),
     comment: Joi.string().allow("", null).optional(),
     name: Joi.string().allow("", null).optional(),
-    email: Joi.string().email().allow("", null).optional(),
     phone: Joi.string().allow("", null).optional(),
+    socialLink: Joi.string().allow("", null).optional(),
   }),
 });
 

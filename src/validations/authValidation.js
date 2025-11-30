@@ -2,10 +2,14 @@ import { celebrate, Joi, Segments } from "celebrate";
 
 export const registerValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    login: Joi.string()
+    phone: Joi.string()
       .trim()
+      .pattern(/^(\+?380)\d{9}$/)
       .required()
-      .messages({ "string.empty": "Логін обов'язковий" }),
+      .messages({
+        "string.empty": "Телефон обов'язковий",
+        "string.pattern.base": "Невірний формат телефону",
+      }),
     password: Joi.string().min(6).required().messages({
       "string.min": "Пароль має бути не менше 6 символів",
       "string.empty": "Пароль обов'язковий",
@@ -15,9 +19,10 @@ export const registerValidation = celebrate({
     }),
   }),
 });
+
 export const loginValidation = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    login: Joi.string().trim().required(),
-    password: Joi.string().min(6).required(),
+  [Segments.BODY]: Joi.object({
+    phone: Joi.string().min(5).required(),
+    password: Joi.string().min(4).required(),
   }),
 });
